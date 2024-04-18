@@ -163,14 +163,11 @@ public class SeedContacts
     {
         var contact = new Contact
         {
-            FirstName = RandomOne(_gems),
-            LastName = $"{RandomOne(_colors)}{RandomOne(_things)}",
-            Phone = $"({_random.Next(100, 999)})-555-{_random.Next(1000, 9999)}",
-            Street = $"{_random.Next(1, 99999)} {_random.Next(1, 999)}" +
-            $" {RandomOne(_streets)} {RandomOne(_streetTypes)} {RandomOne(_directions)}",
-            City = RandomOne(_cities),
-            State = RandomOne(_states),
-            ZipCode = $"{ _random.Next(10000, 99999)}"
+            SerieNummer = RandomOne(_gems),
+            Naam = $"{RandomOne(_colors)}{RandomOne(_things)}",
+            Locatie = $"({_random.Next(100, 999)})-555-{_random.Next(1000, 9999)}",
+            Hoeveelheid = _random.Next(1, 999),
+            Comment = RandomOne(_cities)
         };
 
         return contact;

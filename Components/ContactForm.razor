@@ -13,60 +13,58 @@
         <h2>🆔 Identification</h2>
         <p>
             <label>
-                First Name:
-                <InputText @bind-Value="Contact.FirstName" />
+                SerieNummer:
+                <InputText @bind-Value="Contact.SerieNummer" />
                 <ConcurrencyField Model="Contact"
                                   DbModel="DbContact"
-                                  Property="obj => obj?.FirstName" />
+                                  Property="obj => obj?.SerieNummer" />
             </label>
             <label>
-                Last Name (optional):
-                <InputText @bind-Value="Contact.LastName" />
+                Naam Onderdeel:
+                <InputText @bind-Value="Contact.Naam" />
                 <ConcurrencyField Model="Contact"
                                   DbModel="DbContact"
-                                  Property="obj => obj?.LastName" />
+                                  Property="obj => obj?.Naam" />
             </label>
+            
         </p>
-        <h2>📞 Phone</h2>
         <p>
             <label>
-                Phone (optional):
-                <InputText @bind-Value="Contact.Phone" />
+                Quantity:
+                <InputNumber @bind-Value="Contact.Hoeveelheid" />
                 <ConcurrencyField Model="Contact"
                                   DbModel="DbContact"
-                                  Property="obj => obj?.Phone" />
+                                  Property="obj => obj?.Hoeveelheid" />
             </label>
+            
         </p>
-        <h2>🏠 Home Address</h2>
+        <h2>🏠 Adres</h2>
         <p>
             <label>
-                Street:
-                <InputText @bind-Value="Contact.Street" />
+                Locatie:
+                <InputText @bind-Value="Contact.Locatie" />
+                <ConcurrencyField Model="Contact"
+                                DbModel="DbContact"
+                                Property="obj => obj?.Locatie" />
+            </label>
+        </p>
+        <h2>📒 Additional Information</h2>
+        <p>
+            <label>
+                Soort:
+                <InputText @bind-Value="Contact.Soort" />
                 <ConcurrencyField Model="Contact"
                                   DbModel="DbContact"
-                                  Property="obj => obj?.Street" />
+                                  Property="obj => obj?.Soort" />
             </label>
             <label>
-                City:
-                <InputText @bind-Value="Contact.City" />
+                Comment (optioneel):
+                <InputText @bind-Value="Contact.Comment" />
                 <ConcurrencyField Model="Contact"
                                   DbModel="DbContact"
-                                  Property="obj => obj?.City" />
+                                  Property="obj => obj?.Comment" />
             </label>
-            <label>
-                State:
-                <InputText @bind-Value="Contact.State" />
-                <ConcurrencyField Model="Contact"
-                                  DbModel="DbContact"
-                                  Property="obj => obj?.State" />
-            </label>
-            <label>
-                ZipCode:
-                <InputText @bind-Value="Contact.ZipCode" />
-                <ConcurrencyField Model="Contact"
-                                  DbModel="DbContact"
-                                  Property="obj => obj?.ZipCode" />
-            </label>
+            
         </p>
         <br />
         <button disabled="@Busy" class="btn btn-warning"

@@ -5,7 +5,7 @@
 {
     <div class="row contact-detail">
         <div class="col-1 text-right">
-            <a title="Edit" href="edit/@CurrentContact.Id" style="text-decoration:none">
+            <a title="Edit" href="edit/@CurrentContact.SerieNummer" style="text-decoration:none">
                 &nbsp;📝&nbsp;
             </a>
             @if (CanDelete)
@@ -19,19 +19,15 @@
             }
             &nbsp;
         </div>
-        <div class="col-2">
-            <a href="@ViewLink" alt="View Details"
-               title="View Details">
-                @Name
-            </a>
-        </div>
+        
         @if (!DeleteConfirmation)
         {
-            <div class="col-2">@CurrentContact.Phone</div>
-            <div class="col-3">@CurrentContact.Street</div>
-            <div class="col-2">@CurrentContact.City</div>
-            <div class="col-1">@CurrentContact.State</div>
-            <div class="col-1">@CurrentContact.ZipCode</div>
+            <div class="col-2">@CurrentContact.SerieNummer</div>
+            <div class="col-2">@CurrentContact.Naam</div>
+            <div class="col-3">@CurrentContact.Locatie</div>
+            <div class="col-1">@CurrentContact.Hoeveelheid</div>
+            <div class="col-1">@CurrentContact.Soort</div>
+            
         }
         else
         {
@@ -44,7 +40,7 @@
 
 @code {
     private Contact _currentContact = new Contact();
-
+    private string? Naam => _currentContact?.Naam;
     // Contact being rendered.
     [Parameter]
     public Contact CurrentContact
@@ -70,11 +66,11 @@
 
     // Returns True if conditions for delete are met.
     private bool CanDelete => !DeleteConfirmation &&
-    (Wrapper?.DeleteRequestId == 0 ||
-    Wrapper?.DeleteRequestId == CurrentContact?.Id);
+    (Wrapper?.DeleteRequestId == "" ||
+    Wrapper?.DeleteRequestId == CurrentContact?.SerieNummer);
 
     // Navigate to view.
-    private string ViewLink => $"View/{CurrentContact?.Id}";
+    private string ViewLink => $"View/{CurrentContact?.SerieNummer}";
 
     // Confirm the delete.
     private bool DeleteConfirmation { get; set; }
@@ -93,7 +89,7 @@
 
             if (Wrapper is not null)
             {
-                await Wrapper.DeleteRequested.InvokeAsync(0);
+                await Wrapper.DeleteRequested.InvokeAsync(string.Empty);
             }
         }
     }
@@ -101,10 +97,10 @@
     /// Set delete to true.
     private async Task DeleteRequestAsync()
     {
-        if (Wrapper?.DeleteRequestId == 0)
+        if (Wrapper?.DeleteRequestId == string.Empty)
         {
             DeleteConfirmation = true;
-            await Wrapper.DeleteRequested.InvokeAsync(CurrentContact.Id);
+            await Wrapper.DeleteRequested.InvokeAsync(CurrentContact.SerieNummer);
         }
     }
 
@@ -114,8 +110,4 @@
         return DeleteContact.InvokeAsync(this);
     }
 
-    /// Correctly formatted name.
-    private string Name => Filters.ShowFirstNameFirst ?
-    $"{CurrentContact?.FirstName} {CurrentContact?.LastName}" :
-    $"{CurrentContact?.LastName}, {CurrentContact?.FirstName}";
 }

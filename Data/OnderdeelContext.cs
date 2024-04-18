@@ -39,5 +39,5 @@ public class Onderdeel
     public string? Soort { get; set; }
 
     [Required]
-    public bool Geinstalleerd { get; set; }
+    public string? Comment { get; set; }
 }

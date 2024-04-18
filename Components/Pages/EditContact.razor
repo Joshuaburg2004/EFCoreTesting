@@ -45,7 +45,7 @@ else
     /// Id of contact to edit
     /// </summary>
     [Parameter]
-    public int ContactId { get; set; }
+    public string? ContactId { get; set; }
 
     /// <summary>
     /// The <see cref="ContactContext"/> for database access.
@@ -97,7 +97,7 @@ else
 
             if (Context is not null && Context.Contacts is not null)
             {
-                var contact = await Context.Contacts.SingleOrDefaultAsync(c => c.Id == ContactId);
+                var contact = await Context.Contacts.SingleOrDefaultAsync(c => c.SerieNummer == ContactId);
 
                 if (contact is not null)
                 {
@@ -144,7 +144,7 @@ else
 
             EditSuccessState.Success = true;
             // go to view to see the record
-            Navigation.NavigateTo($"/view/{Contact.Id}");
+            Navigation.NavigateTo($"/view/{Contact.SerieNummer}");
         }
         catch (DbUpdateConcurrencyException dbex)
         {
@@ -159,7 +159,7 @@ else
             if (dbValues is null)
             {
                 // deleted - show contact not found
-                Navigation.NavigateTo($"/view/{Contact.Id}");
+                Navigation.NavigateTo($"/view/{Contact.SerieNummer}");
                 return;
             }
 

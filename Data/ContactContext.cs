@@ -29,9 +29,7 @@ public class ContactContext : DbContext
     {
         // This property isn't on the C# class,
         // so we set it up as a "shadow" property and use it for concurrency.
-        modelBuilder.Entity<Contact>()
-            .Property<byte[]>(RowVersion)
-            .IsRowVersion();
+        modelBuilder.Entity<Contact>();
 
         base.OnModelCreating(modelBuilder);
     }

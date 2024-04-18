@@ -19,13 +19,13 @@ public class GridControls : IContactFilters
 
     // Column to sort by.
     public ContactFilterColumns SortColumn { get; set; }
-        = ContactFilterColumns.Name;
+        = ContactFilterColumns.Naam;
 
     // True when sorting ascending, otherwise sort descending.
     public bool SortAscending { get; set; } = true;
 
     // Column filtered text is against.
-    public ContactFilterColumns FilterColumn { get; set; } = ContactFilterColumns.Name;
+    public ContactFilterColumns FilterColumn { get; set; } = ContactFilterColumns.Naam;
 
     // Text to filter on.
     public string? FilterText { get; set; }

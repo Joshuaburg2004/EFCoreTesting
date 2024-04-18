@@ -13,20 +13,20 @@ using var db = new OnderdeelContext();
 Console.WriteLine($"Database path: {db.DbPath}.");
 
 // Create
-Console.WriteLine("Inserting a new Onderdeel");
-db.Add(new Onderdeel { Naam = "Schroeven", Geinstalleerd = false, Hoeveelheid = 100, Locatie = "Arnhem", SerieNummer = "LS-54455", Soort = "Schroeven" });
-db.SaveChanges();
+// Console.WriteLine("Inserting a new Onderdeel");
+// db.Add(new Onderdeel { Naam = "Schroeven", Comment = null, Hoeveelheid = 100, Locatie = "Arnhem", SerieNummer = "LS-99989", Soort = "Schroeven" });
+// db.SaveChanges();
 
 // Read
-Console.WriteLine("Querying for an onderdeel");
-var blog = db.Onderdelen
-    .OrderBy(b => b.SerieNummer)
-    .First();
+// Console.WriteLine("Querying for an onderdeel");
+// var blog = db.Onderdelen
+//     .OrderBy(b => b.SerieNummer)
+//     .First();
 
-// Update
-Console.WriteLine("Updating the Onderdeel and changing the soort");
-blog.Soort = "Kleine onderdelen";
-db.SaveChanges();
+// // Update
+// Console.WriteLine("Updating the Onderdeel and changing the soort");
+// blog.Soort = "Kleine onderdelen";
+// db.SaveChanges();
 
 // Delete
 var builder = WebApplication.CreateBuilder(args);

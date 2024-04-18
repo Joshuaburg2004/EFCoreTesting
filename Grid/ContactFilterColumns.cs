@@ -1,12 +1,21 @@
 ﻿namespace BlazorWebAppEFCore.Grid;
 
-// Sort options.
+// Sort options.SerieNummer, Naam, Locatie, Hoeveelheid, Soort, Comment
 public enum ContactFilterColumns
 {
-    Name,
-    Phone,
-    Street,
-    City,
-    State,
-    ZipCode
-}
+    SerieNummer,
+    Naam,
+    Locatie,
+    Hoeveelheid,
+    Soort,
+    Comment
+}	// End of ContactFilterColumns
+// public enum ContactFilterColumns
+// {
+//     Name,
+//     Phone,
+//     Street,
+//     City,
+//     State,
+//     ZipCode
+// }

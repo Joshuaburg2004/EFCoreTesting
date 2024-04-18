@@ -10,11 +10,11 @@
 
 <PageTitle>BWA EF Core Sample</PageTitle>
 
-<h1>Contacts</h1>
+<h1>Onderdelen</h1>
 
 <GridWrapper @ref="Wrapper"
              FilterChanged="ReloadAsync"
-             DeleteRequested="id => Wrapper.DeleteRequestId = id">
+             DeleteRequested="SerieNummer => Wrapper.DeleteRequestId = SerieNummer">
     <div class="container-fluid contacts-grid">
         <div class="row">
             <div class="col-4"><NameToggle /></div>
@@ -42,28 +42,28 @@
         <div class="row contact-header">
             <div class="col-1">&nbsp;</div>
             <div class="col-2"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Name))">
-                <SortIndicator Column="@(ContactFilterColumns.Name)" />&nbsp;Name
+            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.SerieNummer))">
+                <SortIndicator Column="@(ContactFilterColumns.SerieNummer)" />&nbsp;Serienummer
             </div>
             <div class="col-2"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Phone))">
-                <SortIndicator Column="@(ContactFilterColumns.Phone)" />&nbsp;📞 Phone
-            </div>
-            <div class="col-3"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Street))">
-                <SortIndicator Column="@(ContactFilterColumns.Street)" />&nbsp;🏠 Street Address
+            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Naam))">
+                <SortIndicator Column="@(ContactFilterColumns.Naam)" />&nbsp;Naam
             </div>
             <div class="col-2"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.City))">
-                <SortIndicator Column="@(ContactFilterColumns.City)" />&nbsp;City
+            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Locatie))">
+                <SortIndicator Column="@(ContactFilterColumns.Locatie)" />&nbsp;Locatie
+            </div>
+            <div class="col-2"
+            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Hoeveelheid))">
+                <SortIndicator Column="@(ContactFilterColumns.Hoeveelheid)" />&nbsp;Hoeveelheid
             </div>
             <div class="col-1"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.State))">
-                <SortIndicator Column="@(ContactFilterColumns.State)" />&nbsp;State
+            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Soort))">
+                <SortIndicator Column="@(ContactFilterColumns.Soort)" />&nbsp;Soort
             </div>
             <div class="col-1"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.ZipCode))">
-                <SortIndicator Column="@(ContactFilterColumns.ZipCode)" />&nbsp;ZipCode
+            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Comment))">
+                <SortIndicator Column="@(ContactFilterColumns.Comment)" />&nbsp;Comment
             </div>
         </div>
         @if (Filters.Loading || Contacts is null)
@@ -185,7 +185,7 @@
         if (Wrapper is not null && context.Contacts is not null)
         {
             var contact = await context.Contacts
-                .FirstAsync(c => c.Id == Wrapper.DeleteRequestId);
+                .FirstAsync(c => c.SerieNummer == Wrapper.DeleteRequestId);
 
             if (contact is not null)
             {
@@ -212,7 +212,7 @@
 
         if (Wrapper is not null)
         {
-            Wrapper.DeleteRequestId = 0;
+            Wrapper.DeleteRequestId = string.Empty;
         }
 
         Contacts = new List<Contact>();

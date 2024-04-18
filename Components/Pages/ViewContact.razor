@@ -1,4 +1,4 @@
-﻿@page "/View/{ContactId:int}"
+﻿@page "/View/{ContactId}"
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
 @using BlazorWebAppEFCore.Data
@@ -19,28 +19,33 @@ else
     }
     else
     {
-        <h1>@Contact.LastName, @Contact.FirstName</h1>
+        <h1>@Contact.SerieNummer</h1>
         <br />
         @if (EditSuccess)
         {
             <div class="alert alert-success">Successfully updated the contact.</div>
         }
         <hr />
-        <h2>📞 Phone</h2>
+        <h2>Naam</h2>
         <br />
-        <h3>@Contact.Phone</h3>
+        <h3>@Contact.Naam</h3>
         <br />
-        <h2>🏠 Address</h2>
+        <h2>🏠 Adres</h2>
         <br />
-        <h3>@Contact.Street</h3>
-        <h3>@Contact.City, @Contact.State @Contact.ZipCode</h3>
+        <h3>@Contact.Locatie</h3>
+        <h2>♾️ Hoeveelheid</h2>
+        <h3>@Convert.ToString(Contact.Hoeveelheid)</h3>
+        <h2>Soort</h2>
+        <h3>@Contact.Soort</h3> 
+        <h2>📒comment</h2>
+        <h3>@Contact.Comment</h3>
         <br />
         <a class="btn btn-primary" title="Go Back" href="@PageHelper.Page">
             🔙 Back to Grid
         </a>
         @if (!Deleted)
         {
-            <a class="btn btn-primary" href="edit/@Contact.Id" title="Edit">Edit</a>
+            <a class="btn btn-primary" href="edit/@Contact.SerieNummer" title="Edit">Edit</a>
 
             <span>&nbsp;</span>
             @if (!ShowConfirmation)
@@ -67,10 +72,10 @@ else
 
     // Id from route of contact.
     [Parameter]
-    public int ContactId { get; set; }
+    public string? ContactId { get; set; }
 
     // Navigation check.
-    private int _lastContactId;
+    private string? _lastContactId;
 
     // True with redirect from successful edit.
     [Parameter]
@@ -136,7 +141,7 @@ else
             Contact = await context.Contacts
                 .AsNoTracking()
                 .SingleOrDefaultAsync(
-                    c => c.Id == ContactId);
+                    c => c.SerieNummer == ContactId);
 
             if (Contact is null)
             {
@@ -162,7 +167,7 @@ else
         if (context?.Contacts is not null)
         {
             var contact = await context.Contacts
-                .SingleOrDefaultAsync(c => c.Id == ContactId);
+                .SingleOrDefaultAsync(c => c.SerieNummer == ContactId);
 
             if (contact is not null)
             {
