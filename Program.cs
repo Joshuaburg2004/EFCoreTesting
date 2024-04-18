@@ -14,7 +14,7 @@ Console.WriteLine($"Database path: {db.DbPath}.");
 
 // Create
 Console.WriteLine("Inserting a new Onderdeel");
-db.Add(new OnderwegOnderdeel { WerkerNaam = "Joshua van der Burg", Comment = "Moet binnenkort worden besteld.", Hoeveelheid = 100, SerieNummer = "LS-43444", Soort = "Schroeven" });
+db.Add(new OnderwegOnderdeel { WerkerNaam = "Joshua van der Burg", Comment = "Moet binnenkort worden besteld.", Hoeveelheid = 100, SerieNummer = "LS-54444", Soort = "Schroeven" });
 db.SaveChanges();
 
 // Read

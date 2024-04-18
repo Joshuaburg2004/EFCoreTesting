@@ -14,7 +14,6 @@ public class OnderdeelContext : DbContext
         DbPath = Path.Join(path, "OnderdelenDb.db");
     }
     
-
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
 
