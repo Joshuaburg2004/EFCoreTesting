@@ -1,9 +1,9 @@
-﻿@page "/View/{ContactId}"
+﻿@page "/View/{OnderdeelId}"
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
 @using BlazorWebAppEFCore.Data
 @using Microsoft.EntityFrameworkCore
-@inject IDbContextFactory<ContactContext> DbFactory
+@inject IDbContextFactory<OnderdeelContext> DbFactory
 @inject IPageHelper PageHelper
 @inject EditSuccess EditSuccessState
 
@@ -13,13 +13,13 @@
 }
 else
 {
-    @if (Contact is null || Loading)
+    @if (Onderdeel is null || Loading)
     {
         <div class="alert alert-info">Loading...</div>
     }
     else
     {
-        <h1>@Contact.SerieNummer</h1>
+        <h1>@Onderdeel.SerieNummer</h1>
         <br />
         @if (EditSuccess)
         {
@@ -28,24 +28,24 @@ else
         <hr />
         <h2>Naam</h2>
         <br />
-        <h3>@Contact.Naam</h3>
+        <h3>@Onderdeel.Naam</h3>
         <br />
         <h2>🏠 Adres</h2>
         <br />
-        <h3>@Contact.Locatie</h3>
+        <h3>@Onderdeel.Locatie</h3>
         <h2>♾️ Hoeveelheid</h2>
-        <h3>@Convert.ToString(Contact.Hoeveelheid)</h3>
+        <h3>@Convert.ToString(Onderdeel.Hoeveelheid)</h3>
         <h2>Soort</h2>
-        <h3>@Contact.Soort</h3> 
+        <h3>@Onderdeel.Soort</h3> 
         <h2>📒comment</h2>
-        <h3>@Contact.Comment</h3>
+        <h3>@Onderdeel.Comment</h3>
         <br />
         <a class="btn btn-primary" title="Go Back" href="@PageHelper.Page">
             🔙 Back to Grid
         </a>
         @if (!Deleted)
         {
-            <a class="btn btn-primary" href="edit/@Contact.SerieNummer" title="Edit">Edit</a>
+            <a class="btn btn-primary" href="edit/@Onderdeel.SerieNummer" title="Edit">Edit</a>
 
             <span>&nbsp;</span>
             @if (!ShowConfirmation)
@@ -72,17 +72,17 @@ else
 
     // Id from route of contact.
     [Parameter]
-    public string? ContactId { get; set; }
+    public string? OnderdeelId { get; set; }
 
     // Navigation check.
-    private string? _lastContactId;
+    private string? _lastOnderdeelId;
 
     // True with redirect from successful edit.
     [Parameter]
     public bool EditSuccess { get; set; }
 
-    // Contact entity.
-    private Contact? Contact { get; set; }
+    // Onderdeel entity.
+    private Onderdeel? Onderdeel { get; set; }
 
     // Set to true when not found.
     private bool NotFound = false;
@@ -96,12 +96,12 @@ else
     // Navigated
     protected override async Task OnParametersSetAsync()
     {
-        if (_lastContactId != ContactId)
+        if (_lastOnderdeelId != OnderdeelId)
         {
             EditSuccess = EditSuccessState.Success;
             EditSuccessState.Success = false;
-            _lastContactId = ContactId;
-            await LoadContactAsync();
+            _lastOnderdeelId = OnderdeelId;
+            await LoadOnderdeelAsync();
         }
         await base.OnParametersSetAsync();
     }
@@ -122,7 +122,7 @@ else
     }
 
     // Loads the contact.
-    private async Task LoadContactAsync()
+    private async Task LoadOnderdeelAsync()
     {
         if (Loading)
         {
@@ -130,20 +130,20 @@ else
         }
 
         NotFound = false;
-        Contact = null;
+        Onderdeel = null;
 
         Loading = true;
 
         using var context = DbFactory.CreateDbContext();
 
-        if (context.Contacts is not null)
+        if (context.Onderdelen is not null)
         {
-            Contact = await context.Contacts
+            Onderdeel = await context.Onderdelen
                 .AsNoTracking()
                 .SingleOrDefaultAsync(
-                    c => c.SerieNummer == ContactId);
+                    c => c.SerieNummer == OnderdeelId);
 
-            if (Contact is null)
+            if (Onderdeel is null)
             {
                 NotFound = true;
             }
@@ -164,14 +164,14 @@ else
         Loading = true;
         using var context = DbFactory?.CreateDbContext();
 
-        if (context?.Contacts is not null)
+        if (context?.Onderdelen is not null)
         {
-            var contact = await context.Contacts
-                .SingleOrDefaultAsync(c => c.SerieNummer == ContactId);
+            var contact = await context.Onderdelen
+                .SingleOrDefaultAsync(c => c.SerieNummer == OnderdeelId);
 
             if (contact is not null)
             {
-                context.Contacts?.Remove(contact);
+                context.Onderdelen?.Remove(contact);
                 await context.SaveChangesAsync();
                 Loading = false;
                 Deleted = true;
@@ -180,14 +180,14 @@ else
             {
                 Loading = false;
                 // Show not found.
-                await LoadContactAsync();
+                await LoadOnderdeelAsync();
             }
         }
         else
         {
             Loading = false;
             // Show not found.
-            await LoadContactAsync();
+            await LoadOnderdeelAsync();
         }
     }
 }

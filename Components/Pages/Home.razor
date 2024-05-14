@@ -3,8 +3,8 @@
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
 @using Microsoft.EntityFrameworkCore
-@inject IContactFilters Filters
-@inject IDbContextFactory<ContactContext> DbFactory
+@inject IOnderdeelFilters Filters
+@inject IDbContextFactory<OnderdeelContext> DbFactory
 @inject NavigationManager Navigation
 @inject GridQueryAdapter QueryAdapter
 
@@ -42,31 +42,31 @@
         <div class="row contact-header">
             <div class="col-1">&nbsp;</div>
             <div class="col-2"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.SerieNummer))">
-                <SortIndicator Column="@(ContactFilterColumns.SerieNummer)" />&nbsp;Serienummer
+            @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.SerieNummer))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.SerieNummer)" />&nbsp;Serienummer
             </div>
             <div class="col-2"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Naam))">
-                <SortIndicator Column="@(ContactFilterColumns.Naam)" />&nbsp;Naam
+            @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Naam))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Naam)" />&nbsp;Naam
             </div>
             <div class="col-2"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Locatie))">
-                <SortIndicator Column="@(ContactFilterColumns.Locatie)" />&nbsp;Locatie
+            @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Locatie))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Locatie)" />&nbsp;Locatie
             </div>
             <div class="col-2"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Hoeveelheid))">
-                <SortIndicator Column="@(ContactFilterColumns.Hoeveelheid)" />&nbsp;Hoeveelheid
+            @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Hoeveelheid))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Hoeveelheid)" />&nbsp;Hoeveelheid
             </div>
             <div class="col-1"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Soort))">
-                <SortIndicator Column="@(ContactFilterColumns.Soort)" />&nbsp;Soort
+            @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Soort))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Soort)" />&nbsp;Soort
             </div>
             <div class="col-1"
-            @onclick="@(async ()=>await ToggleAsync(ContactFilterColumns.Comment))">
-                <SortIndicator Column="@(ContactFilterColumns.Comment)" />&nbsp;Comment
+            @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Comment))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Comment)" />&nbsp;Comment
             </div>
         </div>
-        @if (Filters.Loading || Contacts is null)
+        @if (Filters.Loading || Onderdelen is null)
         {
             <div class="row">
                 <div class="col-12 alert alert-info">
@@ -74,7 +74,7 @@
                 </div>
             </div>
         }
-        @if (Contacts is not null && Contacts.Count == 0)
+        @if (Onderdelen is not null && Onderdelen.Count == 0)
         {
             <div class="row">
                 <div class="col-12 alert alert-warning">
@@ -82,12 +82,12 @@
                 </div>
             </div>
         }
-        @if (Contacts is not null)
+        @if (Onderdelen is not null)
         {
-            @foreach (var contact in Contacts)
+            @foreach (var contact in Onderdelen)
             {
-                <ContactRow @key=contact CurrentContact="contact"
-                            DeleteContact="DeleteContactAsync" />
+                <OnderdeelRow @key=contact CurrentOnderdeel="contact"
+                            DeleteOnderdeel="DeleteOnderdeelAsync" />
             }
         }
     </div>
@@ -108,8 +108,8 @@
     // A wrapper for grid-related activity (like delete).
     private GridWrapper Wrapper { get; set; } = new GridWrapper();
 
-    // Current page of Contact.
-    private ICollection<Contact>? Contacts { get; set; }
+    // Current page of Onderdeel.
+    private ICollection<Onderdeel>? Onderdelen { get; set; }
 
     // Helper method to set disabled on class for paging.
     // condition: When the element is active (and therefore should not be disabled).
@@ -162,7 +162,7 @@
     // Used to toggle the grid sort. Will either switch to "ascending" on a new
     // column, or toggle between "ascending" and "descending" on a column with the
     // sort already set.
-    private Task ToggleAsync(ContactFilterColumns col)
+    private Task ToggleAsync(OnderdeelFilterColumns col)
     {
         if (Filters.SortColumn == col)
         {
@@ -177,19 +177,19 @@
 
     // Deletes a contact.
     #region snippet1
-    private async Task DeleteContactAsync()
+    private async Task DeleteOnderdeelAsync()
     {
         using var context = DbFactory.CreateDbContext();
         Filters.Loading = true;
 
-        if (Wrapper is not null && context.Contacts is not null)
+        if (Wrapper is not null && context.Onderdelen is not null)
         {
-            var contact = await context.Contacts
+            var contact = await context.Onderdelen
                 .FirstAsync(c => c.SerieNummer == Wrapper.DeleteRequestId);
 
             if (contact is not null)
             {
-                context.Contacts?.Remove(contact);
+                context.Onderdelen?.Remove(contact);
                 await context.SaveChangesAsync();
             }
         }
@@ -215,15 +215,15 @@
             Wrapper.DeleteRequestId = string.Empty;
         }
 
-        Contacts = new List<Contact>();
+        Onderdelen = new List<Onderdeel>();
 
         using var context = DbFactory.CreateDbContext();
-        var query = context.Contacts?.AsQueryable();
+        var query = context.Onderdelen?.AsQueryable();
 
         if (query is not null)
         {
             // Run the query to load the current page.
-            Contacts = await QueryAdapter.FetchAsync(query);
+            Onderdelen = await QueryAdapter.FetchAsync(query);
         }
 
         Filters.Loading = false;

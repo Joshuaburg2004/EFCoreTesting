@@ -7,7 +7,7 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    // Call when the filter has changed to refresh the Contact list.
+    // Call when the filter has changed to refresh the Onderdeel list.
     [Parameter]
     public EventCallback FilterChanged { get; set; }
 
@@ -15,6 +15,6 @@
     [Parameter]
     public EventCallback<string> DeleteRequested { get; set; }
 
-    // The id of the Contact to be deleted.
+    // The id of the Onderdeel to be deleted.
     public string? DeleteRequestId { get; set; }
 }

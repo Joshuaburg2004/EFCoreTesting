@@ -1,5 +1,5 @@
 ﻿@using BlazorWebAppEFCore.Grid
-@inject IContactFilters Filters
+@inject IOnderdeelFilters Filters
 
 @if (Column == Filters.SortColumn)
 {
@@ -11,9 +11,9 @@ else
 }
 
 @code {
-    // Sets which ContactFilterColumns this indicator is for.
+    // Sets which OnderdeelFilterColumns this indicator is for.
     [Parameter]
-    public ContactFilterColumns Column { get; set; }
+    public OnderdeelFilterColumns Column { get; set; }
 
     // The symbol to render.
     private string SortSymbol => Filters.SortAscending ? "🔼" : "🔽";

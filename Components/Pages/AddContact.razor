@@ -1,14 +1,14 @@
 ﻿@page "/add"
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
-@inject IDbContextFactory<ContactContext> DbFactory
+@inject IDbContextFactory<OnderdeelContext> DbFactory
 @inject NavigationManager Navigation
 @inject IPageHelper PageHelper
 
-@if (Contact is not null)
+@if (Onderdeel is not null)
 {
-    <ContactForm Busy="Busy" 
-                 Contact="Contact" 
+    <OnderdeelForm Busy="Busy" 
+                 Onderdeel="Onderdeel" 
                  IsAdd="true"
                  CancelRequest="Cancel"
                  ValidationResult="@(async (success) => await ValidationResultAsync(success))" />
@@ -25,7 +25,7 @@
 }
 
 @code {
-    private Contact? Contact { get; set; }
+    private Onderdeel? Onderdeel { get; set; }
 
     // True when an asynchronous operation is running.
     private bool Busy;
@@ -38,10 +38,10 @@
 
     private string ErrorMessage = string.Empty;
 
-    // Start with fresh Contact.
+    // Start with fresh Onderdeel.
     protected override Task OnInitializedAsync()
     {
-        Contact = new();
+        Onderdeel = new();
         return base.OnInitializedAsync();
     }
 
@@ -66,9 +66,9 @@
         using var context = DbFactory.CreateDbContext();
 
         // This just attaches.
-        if (Contact is not null)
+        if (Onderdeel is not null)
         {
-            context.Contacts?.Add(Contact);
+            context.Onderdelen?.Add(Onderdeel);
         }
 
         try
@@ -77,7 +77,7 @@
             Success = true;
             Error = false;
             // Ready for the next.
-            Contact = new();
+            Onderdeel = new();
             Busy = false;
         }
         catch (Exception ex)

@@ -1,11 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms;
 
-<h1>@Mode Contact</h1>
+<h1>@Mode Onderdeel</h1>
 
 <hr />
-@if (Contact is not null)
+@if (Onderdeel is not null)
 {
-    <EditForm Model="Contact"
+    <EditForm Model="Onderdeel"
               OnInvalidSubmit="(async () => await HandleSubmitAsync(false))"
               OnValidSubmit="(async () => await HandleSubmitAsync(true))">
         <DataAnnotationsValidator />
@@ -14,16 +14,16 @@
         <p>
             <label>
                 SerieNummer:
-                <InputText @bind-Value="Contact.SerieNummer" />
-                <ConcurrencyField Model="Contact"
-                                  DbModel="DbContact"
+                <InputText @bind-Value="Onderdeel.SerieNummer" />
+                <ConcurrencyField Model="Onderdeel"
+                                  DbModel="DbOnderdeel"
                                   Property="obj => obj?.SerieNummer" />
             </label>
             <label>
                 Naam Onderdeel:
-                <InputText @bind-Value="Contact.Naam" />
-                <ConcurrencyField Model="Contact"
-                                  DbModel="DbContact"
+                <InputText @bind-Value="Onderdeel.Naam" />
+                <ConcurrencyField Model="Onderdeel"
+                                  DbModel="DbOnderdeel"
                                   Property="obj => obj?.Naam" />
             </label>
             
@@ -31,9 +31,9 @@
         <p>
             <label>
                 Quantity:
-                <InputNumber @bind-Value="Contact.Hoeveelheid" />
-                <ConcurrencyField Model="Contact"
-                                  DbModel="DbContact"
+                <InputNumber @bind-Value="Onderdeel.Hoeveelheid" />
+                <ConcurrencyField Model="Onderdeel"
+                                  DbModel="DbOnderdeel"
                                   Property="obj => obj?.Hoeveelheid" />
             </label>
             
@@ -42,9 +42,9 @@
         <p>
             <label>
                 Locatie:
-                <InputText @bind-Value="Contact.Locatie" />
-                <ConcurrencyField Model="Contact"
-                                DbModel="DbContact"
+                <InputText @bind-Value="Onderdeel.Locatie" />
+                <ConcurrencyField Model="Onderdeel"
+                                DbModel="DbOnderdeel"
                                 Property="obj => obj?.Locatie" />
             </label>
         </p>
@@ -52,16 +52,16 @@
         <p>
             <label>
                 Soort:
-                <InputText @bind-Value="Contact.Soort" />
-                <ConcurrencyField Model="Contact"
-                                  DbModel="DbContact"
+                <InputText @bind-Value="Onderdeel.Soort" />
+                <ConcurrencyField Model="Onderdeel"
+                                  DbModel="DbOnderdeel"
                                   Property="obj => obj?.Soort" />
             </label>
             <label>
                 Comment (optioneel):
-                <InputText @bind-Value="Contact.Comment" />
-                <ConcurrencyField Model="Contact"
-                                  DbModel="DbContact"
+                <InputText @bind-Value="Onderdeel.Comment" />
+                <ConcurrencyField Model="Onderdeel"
+                                  DbModel="DbOnderdeel"
                                   Property="obj => obj?.Comment" />
             </label>
             
@@ -91,13 +91,13 @@
     [Parameter]
     public bool IsAdd { get; set; }
 
-    // The Contact to upsert.
+    // The Onderdeel to upsert.
     [Parameter]
-    public Contact? Contact { get; set; }
+    public Onderdeel? Onderdeel { get; set; }
 
-    // The database version of Contact if a concurrency issue.
+    // The database version of Onderdeel if a concurrency issue.
     [Parameter]
-    public Contact? DbContact { get; set; }
+    public Onderdeel? DbOnderdeel { get; set; }
 
     // Prevent multiple asynchronous operations at the same time.
     [Parameter]

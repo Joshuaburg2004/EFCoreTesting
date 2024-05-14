@@ -36,15 +36,15 @@ builder.Services.AddRazorComponents()
 
 // Register factory and configure the options
 #region snippet1
-builder.Services.AddDbContextFactory<ContactContext>(opt =>
-    opt.UseSqlite($"Data Source={nameof(ContactContext.ContactsDb)}.db"));
+builder.Services.AddDbContextFactory<OnderdeelContext>(opt =>
+    opt.UseSqlite($"Data Source={nameof(OnderdeelContext.Onderdelen)}.db"));
 #endregion
 
 // Pager
 builder.Services.AddScoped<IPageHelper, PageHelper>();
 
 // Filters
-builder.Services.AddScoped<IContactFilters, GridControls>();
+builder.Services.AddScoped<IOnderdeelFilters, GridControls>();
 
 // Query adapter (applies filter to contact request)
 builder.Services.AddScoped<GridQueryAdapter>();
@@ -59,8 +59,8 @@ var app = builder.Build();
 // sample app to make the sample simpler. The app can be cloned. The
 // connection string is configured. The app can be run.
 await using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope();
-var options = scope.ServiceProvider.GetRequiredService<DbContextOptions<ContactContext>>();
-await DatabaseUtility.EnsureDbCreatedAndSeedWithCountOfAsync(options, 500);
+var options = scope.ServiceProvider.GetRequiredService<DbContextOptions<OnderdeelContext>>();
+/*await DatabaseUtility.EnsureDbCreatedAndSeedWithCountOfAsync(options, 500);*/
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

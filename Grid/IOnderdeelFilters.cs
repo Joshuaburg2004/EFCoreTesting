@@ -1,10 +1,10 @@
 ﻿namespace BlazorWebAppEFCore.Grid;
 
 // Interface for filtering
-public interface IContactFilters
+public interface IOnderdeelFilters
 {
-    // The ContactFilterColumns being filtered on.
-    ContactFilterColumns FilterColumn { get; set; }
+    // The OnderdeelFilterColumns being filtered on.
+    OnderdeelFilterColumns FilterColumn { get; set; }
 
     // Loading indicator.
     bool Loading { get; set; }
@@ -21,6 +21,6 @@ public interface IContactFilters
     // Gets or sets a value indicating if the sort is ascending or descending.
     bool SortAscending { get; set; }
 
-    // The ContactFilterColumns being sorted.
-    ContactFilterColumns SortColumn { get; set; }
+    // The OnderdeelFilterColumns being sorted.
+    OnderdeelFilterColumns SortColumn { get; set; }
 }

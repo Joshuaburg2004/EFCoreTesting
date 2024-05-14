@@ -1,23 +1,23 @@
-﻿@page "/edit/{ContactId:int}"
+﻿@page "/edit/{OnderdeelId:int}"
 @rendermode InteractiveServer
 @using Microsoft.EntityFrameworkCore;
 @using BlazorWebAppEFCore.Grid
 @using BlazorWebAppEFCore.Data
 @implements IDisposable
-@inject IDbContextFactory<ContactContext> DbFactory
+@inject IDbContextFactory<OnderdeelContext> DbFactory
 @inject NavigationManager Navigation
 @inject IPageHelper PageHelper
 @inject EditSuccess EditSuccessState
 
-@if (Contact is null && !Busy)
+@if (Onderdeel is null && !Busy)
 {
-    <p>Could not find contact with id @ContactId.</p>
+    <p>Could not find contact with id @OnderdeelId.</p>
 }
 else
 {
-    <ContactForm Busy="Busy" 
-                 Contact="Contact" 
-                 DbContact="DbContact" 
+    <OnderdeelForm Busy="Busy" 
+                 Onderdeel="Onderdeel" 
+                 DbOnderdeel="DbOnderdeel" 
                  IsAdd="false" 
                  CancelRequest="Cancel" 
                  ValidationResult="@(async (success) => await ValidationResultAsync(success))" />
@@ -45,22 +45,22 @@ else
     /// Id of contact to edit
     /// </summary>
     [Parameter]
-    public string? ContactId { get; set; }
+    public string? OnderdeelId { get; set; }
 
     /// <summary>
-    /// The <see cref="ContactContext"/> for database access.
+    /// The <see cref="OnderdeelContext"/> for database access.
     /// </summary>
-    private ContactContext? Context { get; set; }
+    private OnderdeelContext? Context { get; set; }
 
     /// <summary>
-    /// Contact being edited
+    /// Onderdeel being edited
     /// </summary>
-    private Contact Contact { get; set; } = new Contact();
+    private Onderdeel Onderdeel { get; set; } = new Onderdeel();
 
     /// <summary>
     /// Database version when concurrency issues exist
     /// </summary>
-    private Contact DbContact { get; set; } = new Contact();
+    private Onderdeel DbOnderdeel { get; set; } = new Onderdeel();
 
     /// <summary>
     /// Avoid concurrent requests
@@ -95,13 +95,13 @@ else
         {
             Context = DbFactory.CreateDbContext();
 
-            if (Context is not null && Context.Contacts is not null)
+            if (Context is not null && Context.Onderdelen is not null)
             {
-                var contact = await Context.Contacts.SingleOrDefaultAsync(c => c.SerieNummer == ContactId);
+                var contact = await Context.Onderdelen.SingleOrDefaultAsync(c => c.SerieNummer == OnderdeelId);
 
                 if (contact is not null)
                 {
-                    Contact = contact;
+                    Onderdeel = contact;
                 }
             }
         }
@@ -144,7 +144,7 @@ else
 
             EditSuccessState.Success = true;
             // go to view to see the record
-            Navigation.NavigateTo($"/view/{Contact.SerieNummer}");
+            Navigation.NavigateTo($"/view/{Onderdeel.SerieNummer}");
         }
         catch (DbUpdateConcurrencyException dbex)
         {
@@ -159,12 +159,12 @@ else
             if (dbValues is null)
             {
                 // deleted - show contact not found
-                Navigation.NavigateTo($"/view/{Contact.SerieNummer}");
+                Navigation.NavigateTo($"/view/{Onderdeel.SerieNummer}");
                 return;
             }
 
             // bind to show labels on form
-            DbContact = (Contact)dbValues.ToObject();
+            DbOnderdeel = (Onderdeel)dbValues.ToObject();
 
             // move to original so second submit works (unless there is another concurrent edit)
             dbex.Entries[0].OriginalValues.SetValues(dbValues);

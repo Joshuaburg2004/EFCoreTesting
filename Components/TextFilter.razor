@@ -1,13 +1,13 @@
 ﻿@using BlazorWebAppEFCore.Grid
 @using System.Timers;
-@inject IContactFilters Filters
+@inject IOnderdeelFilters Filters
 @implements IDisposable
 
 Filter by:
 <input type="text" autofocus @bind-value="FilterText" @bind-value:event="oninput" />
 <button class="btn btn-danger" @onclick="@(() => FilterText = string.Empty)">Clear</button>
 Filter on: <select @bind="SelectedColumn">
-    @foreach (ContactFilterColumns column in (ContactFilterColumns[])Enum.GetValues(typeof(ContactFilterColumns)))
+    @foreach (OnderdeelFilterColumns column in (OnderdeelFilterColumns[])Enum.GetValues(typeof(OnderdeelFilterColumns)))
     {
         <option @attributes="Selected(column)" value="@((int)column)">@(column.ToString())</option>
     }
@@ -37,9 +37,9 @@ Filter on: <select @bind="SelectedColumn">
     }
 
     // Sets selected attribute.
-    // column: The ContactFilterColumns being evaluated.
+    // column: The OnderdeelFilterColumns being evaluated.
     // Returns the proper attribute to select the option.
-    private IEnumerable<KeyValuePair<string, object>> Selected(ContactFilterColumns column)
+    private IEnumerable<KeyValuePair<string, object>> Selected(OnderdeelFilterColumns column)
     {
         if ((int)column == selectedColumn)
         {
@@ -59,7 +59,7 @@ Filter on: <select @bind="SelectedColumn">
             if (value != selectedColumn)
             {
                 selectedColumn = value;
-                Filters.FilterColumn = (ContactFilterColumns)selectedColumn;
+                Filters.FilterColumn = (OnderdeelFilterColumns)selectedColumn;
                 FilterText = string.Empty;
             }
         }

@@ -1,11 +1,11 @@
 ﻿@using BlazorWebAppEFCore.Grid
-@inject IContactFilters Filters
+@inject IOnderdeelFilters Filters
 
-@if (CurrentContact is not null)
+@if (CurrentOnderdeel is not null)
 {
     <div class="row contact-detail">
         <div class="col-1 text-right">
-            <a title="Edit" href="edit/@CurrentContact.SerieNummer" style="text-decoration:none">
+            <a title="Edit" href="edit/@CurrentOnderdeel.SerieNummer" style="text-decoration:none">
                 &nbsp;📝&nbsp;
             </a>
             @if (CanDelete)
@@ -22,12 +22,12 @@
         
         @if (!DeleteConfirmation)
         {
-            <div class="col-2">@CurrentContact.SerieNummer</div>
-            <div class="col-2">@CurrentContact.Naam</div>
-            <div class="col-3">@CurrentContact.Locatie</div>
-            <div class="col-1">@CurrentContact.Hoeveelheid</div>
-            <div class="col-1">@CurrentContact.Soort</div>
-            <div class="col-1">@CurrentContact.Comment</div>
+            <div class="col-2">@CurrentOnderdeel.SerieNummer</div>
+            <div class="col-2">@CurrentOnderdeel.Naam</div>
+            <div class="col-3">@CurrentOnderdeel.Locatie</div>
+            <div class="col-1">@CurrentOnderdeel.Hoeveelheid</div>
+            <div class="col-1">@CurrentOnderdeel.Soort</div>
+            <div class="col-1">@CurrentOnderdeel.Comment</div>
 
         }
         else
@@ -40,18 +40,18 @@
 }
 
 @code {
-    private Contact _currentContact = new Contact();
-    private string? Naam => _currentContact?.Naam;
-    // Contact being rendered.
+    private Onderdeel _currentOnderdeel = new Onderdeel();
+    private string? Naam => _currentOnderdeel?.Naam;
+    // Onderdeel being rendered.
     [Parameter]
-    public Contact CurrentContact
+    public Onderdeel CurrentOnderdeel
     {
-        get => _currentContact;
+        get => _currentOnderdeel;
         set
         {
-            if (value is not null && !value.Equals(_currentContact))
+            if (value is not null && !value.Equals(_currentOnderdeel))
             {
-                _currentContact = value;
+                _currentOnderdeel = value;
                 DeleteConfirmation = false;
             }
         }
@@ -59,7 +59,7 @@
 
     // Event to raise when a contact delete is requested.
     [Parameter]
-    public EventCallback DeleteContact { get; set; }
+    public EventCallback DeleteOnderdeel { get; set; }
 
     // Overall wrapper of functionality.
     [CascadingParameter]
@@ -68,10 +68,10 @@
     // Returns True if conditions for delete are met.
     private bool CanDelete => !DeleteConfirmation &&
     (Wrapper?.DeleteRequestId == "" ||
-    Wrapper?.DeleteRequestId == CurrentContact?.SerieNummer);
+    Wrapper?.DeleteRequestId == CurrentOnderdeel?.SerieNummer);
 
     // Navigate to view.
-    private string ViewLink => $"View/{CurrentContact?.SerieNummer}";
+    private string ViewLink => $"View/{CurrentOnderdeel?.SerieNummer}";
 
     // Confirm the delete.
     private bool DeleteConfirmation { get; set; }
@@ -101,14 +101,14 @@
         if (Wrapper?.DeleteRequestId == string.Empty)
         {
             DeleteConfirmation = true;
-            await Wrapper.DeleteRequested.InvokeAsync(CurrentContact.SerieNummer);
+            await Wrapper.DeleteRequested.InvokeAsync(CurrentOnderdeel.SerieNummer);
         }
     }
 
-    // Deletes the Contact.
+    // Deletes the Onderdeel.
     private Task DeleteAsync()
     {
-        return DeleteContact.InvokeAsync(this);
+        return DeleteOnderdeel.InvokeAsync(this);
     }
 
 }

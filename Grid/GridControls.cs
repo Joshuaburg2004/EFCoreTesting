@@ -1,7 +1,7 @@
 ﻿namespace BlazorWebAppEFCore.Grid;
 
 // State of grid filters.
-public class GridControls : IContactFilters
+public class GridControls : IOnderdeelFilters
 {
     // Keep state of paging.
     public IPageHelper PageHelper { get; set; }
@@ -18,14 +18,14 @@ public class GridControls : IContactFilters
     public bool ShowFirstNameFirst { get; set; }
 
     // Column to sort by.
-    public ContactFilterColumns SortColumn { get; set; }
-        = ContactFilterColumns.Naam;
+    public OnderdeelFilterColumns SortColumn { get; set; }
+        = OnderdeelFilterColumns.Naam;
 
     // True when sorting ascending, otherwise sort descending.
     public bool SortAscending { get; set; } = true;
 
     // Column filtered text is against.
-    public ContactFilterColumns FilterColumn { get; set; } = ContactFilterColumns.Naam;
+    public OnderdeelFilterColumns FilterColumn { get; set; } = OnderdeelFilterColumns.Naam;
 
     // Text to filter on.
     public string? FilterText { get; set; }
