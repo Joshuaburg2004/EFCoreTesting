@@ -15,9 +15,6 @@ public interface IOnderdeelFilters
     // Paging state in PageHelper.
     IPageHelper PageHelper { get; set; }
 
-    // Gets or sets a value indicating if the name is rendered first name first.
-    bool ShowFirstNameFirst { get; set; }
-
     // Gets or sets a value indicating if the sort is ascending or descending.
     bool SortAscending { get; set; }
 

@@ -1,20 +1,25 @@
 ﻿@using BlazorWebAppEFCore.Grid
 @inject IOnderdeelFilters Filters
 
-@if (Column == Filters.SortColumn)
-{
-    <span>@SortSymbol</span>
-}
-else
-{
-    <span>&nbsp;</span>
-}
-
 @code {
-    // Sets which OnderdeelFilterColumns this indicator is for.
-    [Parameter]
-    public OnderdeelFilterColumns Column { get; set; }
+    [Parameter] public OnderdeelFilterColumns Column { get; set; }
+    [Parameter] public OnderdeelFilterColumns CurrentSortColumn { get; set; }
+    [Parameter] public bool SortAscending { get; set; }
 
-    // The symbol to render.
-    private string SortSymbol => Filters.SortAscending ? "🔼" : "🔽";
+    private string GetSortClass()
+    {
+        if (CurrentSortColumn != Column)
+        {
+            return string.Empty;
+        }
+        return Filters.SortAscending ? "🔼" : "🔽";
+    }
 }
+
+<span class="@GetSortClass()">
+    <!-- Render appropriate arrow or indicator based on sorting -->
+    @if (CurrentSortColumn == Column)
+    {
+        <i class="@(SortAscending ? "fa fa-arrow-up" : "fa fa-arrow-down")"></i>
+    }
+</span>

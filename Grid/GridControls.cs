@@ -14,9 +14,6 @@ public class GridControls : IOnderdeelFilters
     // Avoid multiple concurrent requests.
     public bool Loading { get; set; }
 
-    // Firstname Lastname, or Lastname, Firstname.
-    public bool ShowFirstNameFirst { get; set; }
-
     // Column to sort by.
     public OnderdeelFilterColumns SortColumn { get; set; }
         = OnderdeelFilterColumns.Naam;

@@ -106,13 +106,6 @@ public class GridQueryAdapter
         var expression = _expressions[_controls.SortColumn];
         sb.Append($"Sort: '{_controls.SortColumn}' ");
 
-        // Fix name.
-        if (_controls.SortColumn == OnderdeelFilterColumns.Naam && _controls.ShowFirstNameFirst)
-        {
-            sb.Append($"(first name first) ");
-            expression = c => c.Naam != null ? c.Naam : string.Empty;
-        }
-
         var sortDir = _controls.SortAscending ? "ASC" : "DESC";
         sb.Append(sortDir);
 
