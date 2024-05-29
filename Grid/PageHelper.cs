@@ -31,7 +31,12 @@ public class PageHelper : IPageHelper
     public int DbPage => Page - 1;
 
     // How many records to skip to start current page.
-    public int Skip => PageSize * DbPage;
+    private int _skip;
+    public int Skip
+    {
+        get => PageSize * DbPage;
+        set => _skip = value; // This might not be necessary if Skip is a calculated property
+    }
 
     // Total number of pages.
     public int PageCount => (TotalItemCount + PageSize - 1) / PageSize;

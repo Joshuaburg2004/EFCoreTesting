@@ -30,7 +30,7 @@ public interface IPageHelper
     int PageSize { get; set; }
 
     // How many items to skip.
-    int Skip { get; }
+    int Skip { get; set;}
 
     // Total items based on filter.
     int TotalItemCount { get; set; }
