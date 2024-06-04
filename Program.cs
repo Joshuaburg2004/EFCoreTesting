@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.Hosting;
 using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Mvc;
 
 using var db = new OnderdeelContext();
 
@@ -52,6 +53,8 @@ builder.Services.AddScoped<GridQueryAdapter>();
 // Service to communicate success on edit between pages
 builder.Services.AddScoped<EditSuccess>();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // This section sets up and seeds the database. Seeding is NOT normally
@@ -66,6 +69,8 @@ var options = scope.ServiceProvider.GetRequiredService<DbContextOptions<Onderdee
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
+    app.MapControllers();
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
