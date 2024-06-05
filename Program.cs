@@ -46,6 +46,7 @@ builder.Services.AddScoped<IPageHelper, PageHelper>();
 
 // Filters
 builder.Services.AddScoped<IOnderdeelFilters, GridControls>();
+builder.Services.AddScoped<IInstallatieOnderdeelFilters, GridControls>();
 
 // Query adapter (applies filter to contact request)
 builder.Services.AddScoped<GridQueryAdapter>();

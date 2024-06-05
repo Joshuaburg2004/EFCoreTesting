@@ -1,0 +1,114 @@
+﻿@using BlazorWebAppEFCore.Grid
+@inject IInstallatieOnderdeelFilters Filters
+
+@if (CurrentOnderdeel is not null)
+{
+    <div class="row contact-detail">
+        <div class="col-1 text-right">
+            <a title="Edit" href="edit/@CurrentOnderdeel.SerieNummer" style="text-decoration:none">
+                &nbsp;📝&nbsp;
+            </a>
+            @if (CanDelete)
+            {
+                <span @onclick="DeleteRequestAsync"
+                      title="Delete" class="clickable red">❌</span>
+            }
+            else
+            {
+                <span>&nbsp;</span>
+            }
+            &nbsp;
+        </div>
+
+        @if (!DeleteConfirmation)
+        {
+            <div class="col-2">@CurrentOnderdeel.SerieNummer</div>
+            <div class="col-2">@CurrentOnderdeel.WerkerNaam</div>
+            <div class="col-3">@CurrentOnderdeel.Adres</div>
+            <div class="col-1">@CurrentOnderdeel.Hoeveelheid</div>
+            <div class="col-1">@CurrentOnderdeel.Soort</div>
+            <div class="col-1">@CurrentOnderdeel.Comment</div>
+
+        }
+        else
+        {
+            <div class="col-9">
+                <DeletePrompt Confirmation="ConfirmAsync" />
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private InstallatieOnderdeel _currentOnderdeel = new InstallatieOnderdeel();
+    private string? WerkerNaam => _currentOnderdeel?.WerkerNaam;
+    // Onderdeel being rendered.
+    [Parameter]
+    public InstallatieOnderdeel CurrentOnderdeel
+    {
+        get => _currentOnderdeel;
+        set
+        {
+            if (value is not null && !value.Equals(_currentOnderdeel))
+            {
+                _currentOnderdeel = value;
+                DeleteConfirmation = false;
+            }
+        }
+    }
+
+    // Event to raise when a contact delete is requested.
+    [Parameter]
+    public EventCallback DeleteOnderdeel { get; set; }
+
+    // Overall wrapper of functionality.
+    [CascadingParameter]
+    public GridWrapper? Wrapper { get; set; }
+
+    // Returns True if conditions for delete are met.
+    private bool CanDelete => !DeleteConfirmation &&
+    (Wrapper?.DeleteRequestId == "" ||
+    Wrapper?.DeleteRequestId == CurrentOnderdeel?.SerieNummer);
+
+    // Navigate to view.
+    private string ViewLink => $"View/{CurrentOnderdeel?.SerieNummer}";
+
+    // Confirm the delete.
+    private bool DeleteConfirmation { get; set; }
+
+    // Called based on confirmation.
+    // confirmed: True when confirmed.
+    private async Task ConfirmAsync(bool confirmed)
+    {
+        if (confirmed)
+        {
+            await DeleteAsync();
+        }
+        else
+        {
+            DeleteConfirmation = false;
+
+            if (Wrapper is not null)
+            {
+                await Wrapper.DeleteRequested.InvokeAsync(string.Empty);
+            }
+        }
+    }
+
+    /// Set delete to true.
+    private async Task DeleteRequestAsync()
+    {
+        if (Wrapper?.DeleteRequestId == string.Empty)
+        {
+            DeleteConfirmation = true;
+            await Wrapper.DeleteRequested.InvokeAsync(CurrentOnderdeel.SerieNummer);
+        }
+    }
+
+    // Deletes the Onderdeel.
+    private Task DeleteAsync()
+    {
+        return DeleteOnderdeel.InvokeAsync(this);
+    }
+
+}

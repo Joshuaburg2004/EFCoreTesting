@@ -1,7 +1,7 @@
 ﻿namespace BlazorWebAppEFCore.Grid;
 
 // State of grid filters.
-public class GridControls : IOnderdeelFilters
+public class GridControls : IOnderdeelFilters, IInstallatieOnderdeelFilters
 {
     // Keep state of paging.
     public IPageHelper PageHelper { get; set; }
@@ -18,11 +18,16 @@ public class GridControls : IOnderdeelFilters
     public OnderdeelFilterColumns SortColumn { get; set; }
         = OnderdeelFilterColumns.Naam;
 
+    public InstallatieOnderdeelFilterColumns SortColumns { get; set; }
+        = InstallatieOnderdeelFilterColumns.WerkerNaam;
+
     // True when sorting ascending, otherwise sort descending.
     public bool SortAscending { get; set; } = true;
 
     // Column filtered text is against.
     public OnderdeelFilterColumns FilterColumn { get; set; } = OnderdeelFilterColumns.Naam;
+
+    public InstallatieOnderdeelFilterColumns FilterColumns { get; set; } = InstallatieOnderdeelFilterColumns.WerkerNaam;
 
     // Text to filter on.
     public string? FilterText { get; set; }

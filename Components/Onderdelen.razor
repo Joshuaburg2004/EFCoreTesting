@@ -1,9 +1,9 @@
-﻿@page "/installeerd"
-@page "/installeerd/{Page:int}"
+﻿@page "/Onderdelen"
+@page "/Onderdelen/{Page:int}"
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
 @using Microsoft.EntityFrameworkCore
-@inject IInstallatieOnderdeelFilters Filters
+@inject IOnderdeelFilters Filters
 @inject IDbContextFactory<OnderdeelContext> DbFactory
 @inject NavigationManager Navigation
 @inject GridQueryAdapter QueryAdapter
@@ -42,28 +42,28 @@
         <div class="row contact-header">
             <div class="col-1">&nbsp;</div>
             <div class="col-2"
-                 @onclick="@(async ()=>await ToggleAsync(InstallatieOnderdeelFilterColumns.SerieNummer))">
-                <SortIndicatorInstalled Column="@(InstallatieOnderdeelFilterColumns.SerieNummer)" />&nbsp;Serienummer
+                 @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.SerieNummer))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.SerieNummer)" />&nbsp;Serienummer
             </div>
             <div class="col-2"
-                 @onclick="@(async ()=>await ToggleAsync(InstallatieOnderdeelFilterColumns.WerkerNaam))">
-                <SortIndicatorInstalled Column="@(InstallatieOnderdeelFilterColumns.WerkerNaam)" />&nbsp;WerkerNaam
+                 @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Naam))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Naam)" />&nbsp;Naam
             </div>
             <div class="col-2"
-                 @onclick="@(async ()=>await ToggleAsync(InstallatieOnderdeelFilterColumns.Adres))">
-                <SortIndicatorInstalled Column="@(InstallatieOnderdeelFilterColumns.Adres)" />&nbsp;Adres
+                 @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Locatie))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Locatie)" />&nbsp;Locatie
             </div>
             <div class="col-2"
-                 @onclick="@(async ()=>await ToggleAsync(InstallatieOnderdeelFilterColumns.Hoeveelheid))">
-                <SortIndicatorInstalled Column="@(InstallatieOnderdeelFilterColumns.Hoeveelheid)" />&nbsp;Hoeveelheid
+                 @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Hoeveelheid))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Hoeveelheid)" />&nbsp;Hoeveelheid
             </div>
             <div class="col-1"
-                 @onclick="@(async ()=>await ToggleAsync(InstallatieOnderdeelFilterColumns.Soort))">
-                <SortIndicatorInstalled Column="@(InstallatieOnderdeelFilterColumns.Soort)" />&nbsp;Soort
+                 @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Soort))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Soort)" />&nbsp;Soort
             </div>
             <div class="col-1"
-                 @onclick="@(async ()=>await ToggleAsync(InstallatieOnderdeelFilterColumns.Comment))">
-                <SortIndicatorInstalled Column="@(InstallatieOnderdeelFilterColumns.Comment)" />&nbsp;Comment
+                 @onclick="@(async ()=>await ToggleAsync(OnderdeelFilterColumns.Comment))">
+                <SortIndicator Column="@(OnderdeelFilterColumns.Comment)" />&nbsp;Comment
             </div>
         </div>
         @if (Filters.Loading || Onderdelen is null)
@@ -86,7 +86,7 @@
         {
             @foreach (var contact in Onderdelen)
             {
-                <InstallatieOnderdeelRow @key=contact CurrentOnderdeel="contact"
+                <OnderdeelRow @key=contact CurrentOnderdeel="contact"
                               DeleteOnderdeel="DeleteOnderdeelAsync" />
             }
         }
@@ -109,7 +109,7 @@
     private GridWrapper Wrapper { get; set; } = new GridWrapper();
 
     // Current page of Onderdeel.
-    private ICollection<InstallatieOnderdeel>? Onderdelen { get; set; }
+    private ICollection<Onderdeel>? Onderdelen { get; set; }
 
     // Helper method to set disabled on class for paging.
     // condition: When the element is active (and therefore should not be disabled).
@@ -126,7 +126,7 @@
         // Ensure we're on the same (correct) page.
         if (_lastPage < 1)
         {
-            Navigation.NavigateTo("/Installeerd/1");
+            Navigation.NavigateTo("/Onderdelen/1");
             return;
         }
 
@@ -135,12 +135,12 @@
         {
             if (Page < 1)
             {
-                Navigation.NavigateTo("/Installeerd/1");
+                Navigation.NavigateTo("/Onderdelen/1");
                 return;
             }
             if (Page > Filters.PageHelper.PageCount)
             {
-                Navigation.NavigateTo($"/Installeerd/{Filters.PageHelper.PageCount}");
+                Navigation.NavigateTo($"/Onderdelen/{Filters.PageHelper.PageCount}");
                 return;
             }
         }
@@ -162,15 +162,15 @@
     // Used to toggle the grid sort. Will either switch to "ascending" on a new
     // column, or toggle between "ascending" and "descending" on a column with the
     // sort already set.
-    private Task ToggleAsync(InstallatieOnderdeelFilterColumns col)
+    private Task ToggleAsync(OnderdeelFilterColumns col)
     {
-        if (Filters.SortColumns == col)
+        if (Filters.SortColumn == col)
         {
             Filters.SortAscending = !Filters.SortAscending;
         }
         else
         {
-            Filters.SortColumns = col;
+            Filters.SortColumn = col;
         }
         return ReloadAsync();
     }
@@ -182,14 +182,14 @@
         using var context = DbFactory.CreateDbContext();
         Filters.Loading = true;
 
-        if (Wrapper is not null && context.InstallatieOnderdelen is not null)
+        if (Wrapper is not null && context.Onderdelen is not null)
         {
-            var contact = await context.InstallatieOnderdelen
+            var contact = await context.Onderdelen
                 .FirstAsync(c => c.SerieNummer == Wrapper.DeleteRequestId);
 
             if (contact is not null)
             {
-                context.InstallatieOnderdelen?.Remove(contact);
+                context.Onderdelen?.Remove(contact);
                 await context.SaveChangesAsync();
             }
         }
@@ -215,10 +215,10 @@
             Wrapper.DeleteRequestId = string.Empty;
         }
 
-        Onderdelen = new List<InstallatieOnderdeel>();
+        Onderdelen = new List<Onderdeel>();
 
         using var context = DbFactory.CreateDbContext();
-        var query = context.InstallatieOnderdelen?.AsQueryable();
+        var query = context.Onderdelen?.AsQueryable();
 
         if (query is not null)
         {

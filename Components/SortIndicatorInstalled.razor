@@ -1,0 +1,25 @@
+﻿@using BlazorWebAppEFCore.Grid
+@inject IOnderdeelFilters Filters
+
+@code {
+    [Parameter] public InstallatieOnderdeelFilterColumns Column { get; set; }
+    [Parameter] public InstallatieOnderdeelFilterColumns CurrentSortColumn { get; set; }
+    [Parameter] public bool SortAscending { get; set; }
+
+    private string GetSortClass()
+    {
+        if (CurrentSortColumn != Column)
+        {
+            return string.Empty;
+        }
+        return Filters.SortAscending ? "🔼" : "🔽";
+    }
+}
+
+<span class="@GetSortClass()">
+    <!-- Render appropriate arrow or indicator based on sorting -->
+    @if (CurrentSortColumn == Column)
+    {
+        <i class="@(SortAscending ? "fa fa-arrow-up" : "fa fa-arrow-down")"></i>
+    }
+</span>
