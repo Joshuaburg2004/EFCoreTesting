@@ -101,7 +101,14 @@
         get => Filters.PageHelper.Page;
         set
         {
-            Filters.PageHelper.Page = value;
+            if(value <= 0)
+            {
+                Filters.PageHelper.Page = 1;
+            }
+            else
+            {
+                Filters.PageHelper.Page = value;
+            }
         }
     }
 
