@@ -30,7 +30,7 @@ public class GridQueryAdapter
         = new()
         {
             { InstallatieOnderdeelFilterColumns.SerieNummer, c => c != null && c.SerieNummer != null ? c.SerieNummer : string.Empty },
-            { InstallatieOnderdeelFilterColumns.WerkerNaam, c => c != null && c.WerkerNaam != null ? c.WerkerNaam : string.Empty },
+            { InstallatieOnderdeelFilterColumns.WerkerID, c => c != null && c.WerkerID != null ? c.WerkerID : string.Empty },
             { InstallatieOnderdeelFilterColumns.Adres, c => c != null && c.Adres != null ? c.Adres : string.Empty },
             { InstallatieOnderdeelFilterColumns.Soort, c => c != null && c.Soort != null ? c.Soort : string.Empty },
             { InstallatieOnderdeelFilterColumns.Comment, c => c != null && c.Comment != null ? c.Comment : string.Empty }
@@ -63,7 +63,7 @@ public class GridQueryAdapter
         _filterQueriesInstalled = new()
         {
             { InstallatieOnderdeelFilterColumns.SerieNummer, cs => cs.Where(c => c != null && c.SerieNummer != null && _controls.FilterText != null ? c.SerieNummer.Contains(_controls.FilterText) : false ) },
-            { InstallatieOnderdeelFilterColumns.WerkerNaam, cs => cs.Where(c => c != null && c.WerkerNaam != null && _controls.FilterText != null ? c.WerkerNaam.Contains(_controls.FilterText) : false ) },
+            { InstallatieOnderdeelFilterColumns.WerkerID, cs => cs.Where(c => c != null && c.WerkerID != null && _controls.FilterText != null ? c.WerkerID.Contains(_controls.FilterText) : false ) },
             { InstallatieOnderdeelFilterColumns.Adres, cs => cs.Where(c => c != null && c.Adres != null && _controls.FilterText != null ? c.Adres.Contains(_controls.FilterText) : false ) },
             { InstallatieOnderdeelFilterColumns.Hoeveelheid, cs => cs.Where(c => c != null && _controls.FilterText != null ? Convert.ToString(c.Hoeveelheid).Contains(_controls.FilterText) : false ) },
             { InstallatieOnderdeelFilterColumns.Soort, cs => cs.Where(c => c != null && c.Soort != null && _controls.FilterText != null ? c.Soort.Contains(_controls.FilterText) : false ) },

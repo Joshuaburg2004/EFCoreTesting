@@ -19,7 +19,7 @@ public class GridControls : IOnderdeelFilters, IInstallatieOnderdeelFilters
         = OnderdeelFilterColumns.Naam;
 
     public InstallatieOnderdeelFilterColumns SortColumns { get; set; }
-        = InstallatieOnderdeelFilterColumns.WerkerNaam;
+        = InstallatieOnderdeelFilterColumns.WerkerID;
 
     // True when sorting ascending, otherwise sort descending.
     public bool SortAscending { get; set; } = true;
@@ -27,7 +27,7 @@ public class GridControls : IOnderdeelFilters, IInstallatieOnderdeelFilters
     // Column filtered text is against.
     public OnderdeelFilterColumns FilterColumn { get; set; } = OnderdeelFilterColumns.Naam;
 
-    public InstallatieOnderdeelFilterColumns FilterColumns { get; set; } = InstallatieOnderdeelFilterColumns.WerkerNaam;
+    public InstallatieOnderdeelFilterColumns FilterColumns { get; set; } = InstallatieOnderdeelFilterColumns.WerkerID;
 
     // Text to filter on.
     public string? FilterText { get; set; }
