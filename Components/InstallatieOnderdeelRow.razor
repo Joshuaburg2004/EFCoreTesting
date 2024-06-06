@@ -23,7 +23,7 @@
         @if (!DeleteConfirmation)
         {
             <div class="col-2">@CurrentOnderdeel.SerieNummer</div>
-            <div class="col-2">@CurrentOnderdeel.WerkerNaam</div>
+            <div class="col-2">@CurrentOnderdeel.WerkerID</div>
             <div class="col-3">@CurrentOnderdeel.Adres</div>
             <div class="col-1">@CurrentOnderdeel.Hoeveelheid</div>
             <div class="col-1">@CurrentOnderdeel.Soort</div>
@@ -41,7 +41,7 @@
 
 @code {
     private InstallatieOnderdeel _currentOnderdeel = new InstallatieOnderdeel();
-    private string? WerkerNaam => _currentOnderdeel?.WerkerNaam;
+    private string? WerkerID => _currentOnderdeel?.WerkerID;
     // Onderdeel being rendered.
     [Parameter]
     public InstallatieOnderdeel CurrentOnderdeel

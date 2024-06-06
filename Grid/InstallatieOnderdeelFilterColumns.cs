@@ -4,7 +4,7 @@
 public enum InstallatieOnderdeelFilterColumns
 {
     SerieNummer,
-    WerkerNaam,
+    WerkerID,
     Adres,
     Hoeveelheid,
     Soort,
