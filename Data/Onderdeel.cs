@@ -2,10 +2,11 @@
 
 public class Onderdeel
 {
+    [Key]
+    public int OnderdeelID { get; set; }
 
     [Required]
     [StringLength(100, ErrorMessage = "Serie nummer kan niet langer dan 100 characters zijn.")]
-    [Key]
     public string? SerieNummer { get; set; }
 
     [StringLength(100, ErrorMessage = "De naam van het onderdeel kan niet langer dan 100 characters zijn.")]

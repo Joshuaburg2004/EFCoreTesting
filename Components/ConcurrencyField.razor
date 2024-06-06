@@ -37,11 +37,21 @@
     {
         if (Property is not null && DbModel is not null)
         {
-            property = Property(DbModel);
+            var dbModelProperty = Property(DbModel);
 
-            if (Model is not null)
+            if (dbModelProperty is not null)
             {
-                IsDelta = !Property(Model).Equals(Property(DbModel));
+                property = dbModelProperty;
+
+                if (Model is not null)
+                {
+                    var modelProperty = Property(Model);
+
+                    if (modelProperty is not null)
+                    {
+                        IsDelta = !modelProperty.Equals(dbModelProperty);
+                    }
+                }
             }
         }
     }

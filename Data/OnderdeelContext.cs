@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MySql.EntityFrameworkCore;
 using System.Data;
+using MySql.EntityFrameworkCore.Extensions;
 
 public class OnderdeelContext : DbContext
 {
@@ -21,6 +22,9 @@ public class OnderdeelContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Onderdeel>().UseTptMappingStrategy();
+        modelBuilder.Entity<Onderdeel>().HasKey(c => c.OnderdeelID);
+        //set the identity column: identity increment and identity seed
+        modelBuilder.Entity<Onderdeel>().Property(c => c.OnderdeelID);
     }
 }
 

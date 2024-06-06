@@ -8,7 +8,7 @@ public class InstallatieOnderdeel
     public string? SerieNummer { get; set; }
     [Required]
     [StringLength(100, ErrorMessage = "De naam van de buitendienst medewerker kan niet langer dan 100 characters zijn.")]
-    public string? WerkerNaam { get; set; }
+    public string? WerkerID { get; set; }
     [Required]
     public string? Adres { get; set; }
     [Required]

@@ -11,7 +11,7 @@
 
 @if (Onderdeel is null && !Busy)
 {
-    <p>Could not find contact with id @OnderdeelId.</p>
+    <p>Could not find onderdeel with id @OnderdeelId.</p>
 }
 else
 {
@@ -45,7 +45,7 @@ else
     /// Id of contact to edit
     /// </summary>
     [Parameter]
-    public string? OnderdeelId { get; set; }
+    public int OnderdeelId { get; set; }
 
     /// <summary>
     /// The <see cref="OnderdeelContext"/> for database access.
@@ -97,7 +97,7 @@ else
 
             if (Context is not null && Context.Onderdelen is not null)
             {
-                var contact = await Context.Onderdelen.SingleOrDefaultAsync(c => c.SerieNummer == OnderdeelId);
+                var contact = await Context.Onderdelen.SingleOrDefaultAsync(c => c.OnderdeelID == OnderdeelId);
 
                 if (contact is not null)
                 {
