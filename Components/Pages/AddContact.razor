@@ -1,9 +1,11 @@
 ﻿@page "/add"
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
+@using Microsoft.AspNetCore.Mvc
 @inject IDbContextFactory<OnderdeelContext> DbFactory
 @inject NavigationManager Navigation
 @inject IPageHelper PageHelper
+@inject ILogger<ApiController> logger
 
 @if (Onderdeel is not null)
 {
@@ -16,12 +18,12 @@
 @if (Success)
 {
     <br />
-    <div class="alert alert-success">The contact was successfully added.</div>
+    <div class="alert alert-success">The onderdeel was successfully added.</div>
 }
 @if (Error)
 {
     <br />
-    <div class="alert alert-danger">Failed to add the contact (@ErrorMessage).</div>
+    <div class="alert alert-danger">Failed to add the onderdeel (@ErrorMessage).</div>
 }
 
 @code {
@@ -68,7 +70,8 @@
         // This just attaches.
         if (Onderdeel is not null)
         {
-            context.Onderdelen?.Add(Onderdeel);
+            ApiController api = new ApiController(logger);
+            await api.PostOnderdelen(Onderdeel);
         }
 
         try

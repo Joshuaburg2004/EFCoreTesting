@@ -7,7 +7,9 @@ using System.Linq;
 using Microsoft.Extensions.Hosting;
 using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Runtime.InteropServices;
+using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+ILogger logger = factory.CreateLogger<ExampleHandler>();
 using var db = new OnderdeelContext();
 
 // Note: This sample requires the database to be created before running.
@@ -34,7 +36,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
+builder.Services.AddLogging(builder => builder.AddConsole());
 // Register factory and configure the options
 #region snippet1
 builder.Services.AddDbContextFactory<OnderdeelContext>(opt =>
@@ -80,8 +82,21 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
-
+ 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
-
+ExampleHandler handler = new ExampleHandler(logger);
+app.MapGet("/api/GetOnderdelen", handler.HandleRequest);
 app.Run();
+partial class ExampleHandler(ILogger logger)
+{
+    public List<Onderdeel> HandleRequest()
+    {
+        LogHandleRequest(logger);
+        var db = new OnderdeelContext();
+        return db.Onderdelen.ToList();
+    }
+
+    [LoggerMessage(LogLevel.Information, "ExampleHandler.HandleRequest was called")]
+    public static partial void LogHandleRequest(ILogger logger);
+}
