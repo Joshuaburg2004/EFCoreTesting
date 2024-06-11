@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 [Route("api")]
 public class ApiController : Controller
 {
-    private static readonly List<Onderdeel> Summaries = new OnderdeelContext().Onderdelen.ToList();
+    private static readonly List<Onderdeel> onderdelen = new OnderdeelContext().Onderdelen.ToList();
 
     private readonly ILogger<ApiController> _logger;
     private OnderdeelContext _context = new OnderdeelContext();
@@ -18,9 +18,9 @@ public class ApiController : Controller
     [HttpGet("GetOnderdelen")]
     public IEnumerable<Onderdeel> GetOnderdelen()
     {
-        return Summaries;
+        return onderdelen;
     }
-    [HttpPost("PostOnderdelen")]
+    [HttpPost]
     public async Task<ActionResult<Onderdeel>> PostOnderdelen(Onderdeel onderdeel)
     {
         _context.Onderdelen.Add(onderdeel);
