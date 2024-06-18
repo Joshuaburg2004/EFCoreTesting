@@ -22,6 +22,7 @@ public class GridQueryAdapter
             { OnderdeelFilterColumns.SerieNummer, c => c != null && c.SerieNummer != null ? c.SerieNummer : string.Empty },
             { OnderdeelFilterColumns.Naam, c => c != null && c.Naam != null ? c.Naam : string.Empty },
             { OnderdeelFilterColumns.Locatie, c => c != null && c.Locatie != null ? c.Locatie : string.Empty },
+            { OnderdeelFilterColumns.Hoeveelheid, c => string.Empty },
             { OnderdeelFilterColumns.Soort, c => c != null && c.Soort != null ? c.Soort : string.Empty },
             { OnderdeelFilterColumns.Comment, c => c != null && c.Comment != null ? c.Comment : string.Empty }
         };

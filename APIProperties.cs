@@ -8,10 +8,12 @@ public class ApiController : Controller
     private static readonly List<Onderdeel> onderdelen = new OnderdeelContext().Onderdelen.ToList();
 
     private readonly ILogger<ApiController> _logger;
+    private readonly HttpContext? _httpContext;
     private OnderdeelContext _context = new OnderdeelContext();
 
-    public ApiController(ILogger<ApiController> logger)
+    public ApiController(IHttpContextAccessor contextAccessor, ILogger<ApiController> logger)
     {
+        _httpContext = contextAccessor.HttpContext;
         _logger = logger;
     }
 
@@ -20,7 +22,7 @@ public class ApiController : Controller
     {
         return onderdelen;
     }
-    [HttpPost]
+    [HttpPost("PostOnderdelen")]
     public async Task<ActionResult<Onderdeel>> PostOnderdelen(Onderdeel onderdeel)
     {
         _context.Onderdelen.Add(onderdeel);

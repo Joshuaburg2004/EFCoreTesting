@@ -43,8 +43,10 @@ builder.Services.AddDbContextFactory<OnderdeelContext>(opt =>
     opt.UseSqlite($"Data Source={nameof(OnderdeelContext.Onderdelen)}.db"));
 #endregion
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // Pager
 builder.Services.AddScoped<IPageHelper, PageHelper>();
+builder.Services.AddScoped<PostFormService>();
 
 // Filters
 builder.Services.AddScoped<IOnderdeelFilters, GridControls>();
@@ -84,6 +86,7 @@ app.UseStaticFiles();
 app.UseAntiforgery();
  
 app.MapRazorComponents<App>()
+    .DisableAntiforgery()
     .AddInteractiveServerRenderMode();
 ExampleHandler handler = new ExampleHandler(logger);
 app.MapGet("/api/GetOnderdelen", handler.HandleRequest);
