@@ -16,7 +16,7 @@ public class Onderdeel
     public string? Locatie { get; set; }
 
     [Required]
-    [Range(0, double.PositiveInfinity, ErrorMessage = "Moet positief zijn")]
+    [Range(0, double.PositiveInfinity, ErrorMessage = "Hoeveelheid moet positief zijn")]
     public int Hoeveelheid { get; set; }
 
     [Required]
