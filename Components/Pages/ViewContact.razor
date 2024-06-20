@@ -1,4 +1,4 @@
-﻿@page "/View/{OnderdeelId}"
+﻿@page "/View/{OnderdeelId:int}"
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
 @using BlazorWebAppEFCore.Data
@@ -46,7 +46,7 @@ else
         </a>
         @if (!Deleted)
         {
-            <a class="btn btn-primary" href="edit/@Onderdeel.SerieNummer" title="Edit">Edit</a>
+            <a class="btn btn-primary" href="edit/@Onderdeel.OnderdeelID" title="Edit">Edit</a>
 
             <span>&nbsp;</span>
             @if (!ShowConfirmation)
@@ -73,10 +73,10 @@ else
 
     // Id from route of contact.
     [Parameter]
-    public string? OnderdeelId { get; set; }
+    public int OnderdeelId { get; set; }
 
     // Navigation check.
-    private string? _lastOnderdeelId;
+    private int _lastOnderdeelId;
 
     // True with redirect from successful edit.
     [Parameter]
@@ -141,8 +141,8 @@ else
         {
             Onderdeel = await context.Onderdelen
                 .AsNoTracking()
-                .SingleOrDefaultAsync(
-                    c => c.SerieNummer == OnderdeelId);
+                .FirstOrDefaultAsync(
+                    c => c.OnderdeelID == OnderdeelId);
 
             if (Onderdeel is null)
             {
@@ -168,7 +168,7 @@ else
         if (context?.Onderdelen is not null)
         {
             var contact = await context.Onderdelen
-                .SingleOrDefaultAsync(c => c.SerieNummer == OnderdeelId);
+                .SingleOrDefaultAsync(c => c.OnderdeelID == OnderdeelId);
 
             if (contact is not null)
             {

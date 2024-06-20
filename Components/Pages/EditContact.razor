@@ -144,7 +144,7 @@ else
 
             EditSuccessState.Success = true;
             // go to view to see the record
-            Navigation.NavigateTo($"/view/{Onderdeel.SerieNummer}");
+            Navigation.NavigateTo($"/view/{Onderdeel.OnderdeelID}");
         }
         catch (DbUpdateConcurrencyException dbex)
         {
@@ -159,7 +159,7 @@ else
             if (dbValues is null)
             {
                 // deleted - show contact not found
-                Navigation.NavigateTo($"/view/{Onderdeel.SerieNummer}");
+                Navigation.NavigateTo($"/view/{Onderdeel.OnderdeelID}");
                 return;
             }
 
