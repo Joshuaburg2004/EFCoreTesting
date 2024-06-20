@@ -11,6 +11,7 @@ public class OnderwegOnderdeel
     public string? WerkerNaam { get; set; }
 
     [Required]
+    [Range(0, double.PositiveInfinity, ErrorMessage = "Moet positief zijn")]
     public int Hoeveelheid { get; set; }
 
     [Required]
