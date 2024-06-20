@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using BlazorWebAppEFCore.Grid;
+using BlazorWebAppEFCore.Data;
 
 public class GridQueryAdapterTests
 {
     [Fact]
-    public async Task FetchAsync_ReturnsCorrectCollection()
+    public void FetchAsync_ReturnsCorrectCollection()
     {
         // Arrange
         var mockControls = new Mock<IOnderdeelFilters>();
@@ -19,7 +20,7 @@ public class GridQueryAdapterTests
         var query = new List<Onderdeel>().AsQueryable();
 
         // Act
-        var result = await adapter.FetchAsync(query);
+        var result = adapter.FetchPageQuery(query).ToList();
 
         // Assert
         Assert.NotNull(result);
@@ -27,20 +28,16 @@ public class GridQueryAdapterTests
     }
 
     [Fact]
-    public async Task CountAsync_SetsTotalItemCount()
+    public void CountAsync_SetsTotalItemCount()
     {
         // Arrange
         var pageHelper = new PageHelper();
         var mockControls = new Mock<IOnderdeelFilters>();
         mockControls.Setup(c => c.PageHelper).Returns(pageHelper);
         var mockControllers = new Mock<IInstallatieOnderdeelFilters>();
-        mockControllers.Setup(c => c.PageHelper).Returns(new PageHelper());
+        mockControllers.Setup(c => c.PageHelper).Returns(pageHelper);
         var adapter = new GridQueryAdapter(mockControls.Object, mockControllers.Object);
         var query = new List<Onderdeel> { new Onderdeel(), new Onderdeel() }.AsQueryable();
-
-        // Act
-        await adapter.CountAsync(query);
-
         // Assert
         Assert.Equal(2, pageHelper.TotalItemCount);
     }
@@ -53,7 +50,7 @@ public class GridQueryAdapterTests
         var mockControls = new Mock<IOnderdeelFilters>();
         mockControls.Setup(c => c.PageHelper).Returns(pageHelper);
         var mockControllers = new Mock<IInstallatieOnderdeelFilters>();
-        mockControllers.Setup(c => c.PageHelper).Returns(new PageHelper());
+        mockControllers.Setup(c => c.PageHelper).Returns(pageHelper);
         var adapter = new GridQueryAdapter(mockControls.Object, mockControllers.Object);
         var query = new List<Onderdeel> { new Onderdeel(), new Onderdeel() }.AsQueryable();
 
